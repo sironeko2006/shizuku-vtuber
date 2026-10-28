@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>紫乃しずく | おしゃべりルーム</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#f8eaff,#e9e0fa);font-family:system-ui,sans-serif;color:#503c65;display:flex;justify-content:center}main{width:min(100%,480px);padding:20px 16px 32px;text-align:center}h1{font-size:24px;margin:12px 0}img{display:block;width:75%;max-width:280px;max-height:310px;object-fit:cover;object-position:top;border-radius:22px;margin:0 auto 16px;box-shadow:0 8px 24px #79608d33}.hint{font-size:13px;color:#756583;margin:0 0 14px}.chat{height:280px;overflow-y:auto;text-align:left;background:#ffffffbb;border:1px solid #e6d6ef;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}.bubble{padding:10px 13px;border-radius:16px;max-width:88%;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.shizuku{align-self:flex-start;background:#f1e4fa}.you{align-self:flex-end;background:#d9c0ef}.input-row{display:flex;gap:8px;margin-top:12px}input{min-width:0;flex:1;border:1px solid #d4bce5;border-radius:22px;padding:13px;font-size:16px}button{border:0;border-radius:22px;padding:12px 19px;background:#a36ad6;color:white;font-size:16px;font-weight:600}button:active{opacity:.8}.note{font-size:12px;color:#7b6a89;margin-top:12px}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#f8eaff,#e9e0fa);font-family:system-ui,sans-serif;color:#503c65;display:flex;justify-content:center}main{width:min(100%,480px);padding:20px 16px 32px;text-align:center}h1{font-size:24px;margin:12px 0}img{display:block;width:75%;max-width:280px;max-height:310px;object-fit:cover;object-position:top;border-radius:22px;margin:0 auto 16px;box-shadow:0 8px 24px #79608d33}.hint{font-size:13px;color:#756583;margin:0 0 14px}.chat{height:280px;overflow-y:auto;text-align:left;background:#ffffffbb;border:1px solid #e6d6ef;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}.bubble{padding:10px 13px;border-radius:16px;max-width:88%;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.shizuku{align-self:flex-start;background:#f1e4fa}.you{align-self:flex-end;background:#d9c0ef}.input-row{display:flex;gap:8px;margin-top:12px}input{min-width:0;flex:1;border:1px solid #d4bce5;border-radius:22px;padding:13px;font-size:16px}button{border:0;border-radius:22px;padding:12px 19px;background:#a36ad6;color:white;font-size:16px;font-weight:600}button:active{opacity:.8}button:disabled{opacity:.55}.note{font-size:12px;color:#7b6a89;margin-top:12px}.mode-row{display:flex;justify-content:center;margin-top:12px}.mode-button{font-size:13px;padding:10px 16px;background:#8054a6}#modeText{margin:9px 0 0;font-size:12px;color:#68567a}[hidden]{display:none!important}.token-panel{margin:12px 0 0;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#fff9}.token-panel label{display:block;font-size:13px;margin-bottom:8px}.token-row{display:flex;gap:8px}.token-row button{font-size:13px}.cancel-token{margin-top:8px;background:#b3a2c2;font-size:13px;padding:8px 12px}
 </style>
 </head>
 <body>
@@ -16,32 +16,139 @@
 <div class="chat" id="chat" role="log" aria-live="polite" aria-label="しずくとの会話"></div>
 <form id="chatForm" class="input-row">
 <input id="message" placeholder="しずくに話しかけてね" maxlength="200" autocomplete="off" aria-label="メッセージ">
-<button type="submit">送信 💜</button>
+<button id="sendButton" type="submit">送信 💜</button>
 </form>
-<p class="note">お試し版：決まった会話パターンで返事をするよ（AI接続はまだ）</p>
+<div class="mode-row"><button id="modeButton" type="button" class="mode-button">🔐 AIテストを開始</button></div>
+<div id="tokenPanel" class="token-panel" hidden>
+<label for="tokenInput">テスト用の合言葉を入力（他の人には教えないでね）</label>
+<div class="token-row"><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" aria-label="テスト用合言葉"><button id="connectButton" type="button">接続</button></div>
+<button id="cancelButton" class="cancel-token" type="button">キャンセル</button>
+</div>
+<p id="modeText">現在はお試し会話モード。AI接続はテスト用の合言葉が必要です。</p>
+<p class="note">AIテストではAPI利用料金が発生します。合言葉はページを閉じると破棄され、保存されません。</p>
 </main>
 <script>
-const chat=document.getElementById('chat');
-const input=document.getElementById('message');
-const form=document.getElementById('chatForm');
-let count=0;
-function addMessage(text,who){const div=document.createElement('div');div.className='bubble '+who;div.textContent=text;chat.appendChild(div);chat.scrollTop=chat.scrollHeight;}
-function reply(message){
-const m=message.toLowerCase();
-if(/初見|はじめまして|初めまして/.test(m))return 'はじめまして！紫乃しずくだよ💜 来てくれてうれしいな！今日は何してたの？';
-if(/こんにちは|こんちは|やっほ|こんばんは|おはよう/.test(m))return 'わぁ、来てくれたんだ！えへへ、うれしい💜 今日はどんな一日だった？';
-if(/名前|誰|だれ/.test(m))return '紫乃しずく、20歳だよ！ちょっと照れ屋だけど、仲良くしてね💜';
-if(/好き|推し/.test(m))return 'えっ、好きって言われると照れちゃう…！💜 どんなものが好きなの？';
-if(/疲れ|つかれ|しんど|仕事/.test(m))return '今日もおつかれさま…！無理しすぎないでね。ここではゆっくりしていって💜';
-if(/かわいい|可愛い|きれい/.test(m))return 'えっ…ほ、本当に！？ありがとう…！照れちゃうよ〜💜';
-if(/おやすみ|寝る|ねむい|眠い/.test(m))return 'うん、ゆっくり休んでね。いい夢見られますように…おやすみ💜';
-if(/ありがとう|ありがと/.test(m))return 'こちらこそありがとう！お話できてうれしいな💜';
-if(/元気|げんき/.test(m))return 'うん！会いに来てくれたから元気になったよ💜 そっちはどう？';
-const choices=['うんうん、聞いてるよ💜 それでどうなったの？','えへへ、もっとお話ししたいな！最近楽しかったことある？','そうなんだ！教えてくれてありがとう💜','わぁ、気になる…！もう少し詳しく聞いてもいい？'];
-return choices[count++%choices.length];
+'use strict';
+const chat = document.getElementById('chat');
+const input = document.getElementById('message');
+const form = document.getElementById('chatForm');
+const sendButton = document.getElementById('sendButton');
+const modeButton = document.getElementById('modeButton');
+const modeText = document.getElementById('modeText');
+const tokenPanel = document.getElementById('tokenPanel');
+const tokenInput = document.getElementById('tokenInput');
+const connectButton = document.getElementById('connectButton');
+const cancelButton = document.getElementById('cancelButton');
+const workerUrl = 'https://shizuku-ai.sironeko2006-m.workers.dev/';
+let testToken = null; // ブラウザのメモリだけで保持。GitHubや端末には保存しない。
+let busy = false;
+let count = 0;
+let conversation = [];
+function addMessage(text, who) {
+  const div = document.createElement('div');
+  div.className = 'bubble ' + who;
+  div.textContent = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+  return div;
 }
-form.addEventListener('submit',event=>{event.preventDefault();const message=input.value.trim();if(!message)return;addMessage(message,'you');input.value='';addMessage(reply(message),'shizuku');input.focus();});
-addMessage('こんにちは…！紫乃しずくだよ💜 よかったら、お話ししない？','shizuku');
+function demoReply(message) {
+  const m = message.toLowerCase();
+  if (/初見|はじめまして|初めまして/.test(m)) return 'はじめまして！紫乃しずくだよ💜 来てくれてうれしいな！今日は何してたの？';
+  if (/こんにちは|こんちは|やっほ|こんばんは|おはよう/.test(m)) return 'わぁ、来てくれたんだ！えへへ、うれしい💜 今日はどんな一日だった？';
+  if (/名前|誰|だれ/.test(m)) return '紫乃しずく、20歳だよ！ちょっと照れ屋だけど、仲良くしてね💜';
+  if (/好き|推し/.test(m)) return 'えっ、好きって言われると照れちゃう…！💜 どんなものが好きなの？';
+  if (/疲れ|つかれ|しんど|仕事/.test(m)) return '今日もおつかれさま…！無理しすぎないでね。ここではゆっくりしていって💜';
+  if (/かわいい|可愛い|きれい/.test(m)) return 'えっ…ほ、本当に！？ありがとう…！照れちゃうよ〜💜';
+  if (/おやすみ|寝る|ねむい|眠い/.test(m)) return 'うん、ゆっくり休んでね。いい夢見られますように…おやすみ💜';
+  if (/ありがとう|ありがと/.test(m)) return 'こちらこそありがとう！お話できてうれしいな💜';
+  if (/元気|げんき/.test(m)) return 'うん！会いに来てくれたから元気になったよ💜 そっちはどう？';
+  const choices = ['うんうん、聞いてるよ💜 それでどうなったの？','えへへ、もっとお話ししたいな！最近楽しかったことある？','そうなんだ！教えてくれてありがとう💜','わぁ、気になる…！もう少し詳しく聞いてもいい？'];
+  return choices[count++ % choices.length];
+}
+modeButton.addEventListener('click', () => {
+  if (busy) return;
+  if (testToken !== null) {
+    testToken = null;
+    conversation = [];
+    modeButton.textContent = '🔐 AIテストを開始';
+    modeText.textContent = 'お試し会話モードに戻りました。合言葉は破棄しました。';
+    addMessage('お試し会話モードに戻ったよ💜', 'shizuku');
+    return;
+  }
+  // 入力欄はパスワード型。秘密は公開ソースやlocalStorageに保存しない。
+  tokenPanel.hidden = false;
+  tokenInput.focus();
+});
+connectButton.addEventListener('click', () => {
+  const entered = tokenInput.value.trim();
+  tokenInput.value = '';
+  if (!entered) return;
+  testToken = entered;
+  conversation = [];
+  tokenPanel.hidden = true;
+  modeButton.textContent = '🔒 AIテストを終了';
+  modeText.textContent = 'AIテストモード中。送信するとAPI料金が発生する場合があります。';
+  addMessage('AIテストモードだよ💜 お話ししてみてね！', 'shizuku');
+});
+cancelButton.addEventListener('click', () => {
+  tokenInput.value = '';
+  tokenPanel.hidden = true;
+});
+tokenInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); connectButton.click(); }
+});
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+  if (busy) return;
+  const message = input.value.trim();
+  if (!message) return;
+  input.value = '';
+  addMessage(message, 'you');
+  if (testToken === null) {
+    addMessage(demoReply(message), 'shizuku');
+    input.focus();
+    return;
+  }
+  busy = true;
+  sendButton.disabled = true;
+  modeButton.disabled = true;
+  const pending = addMessage('しずくが考えているよ…💜', 'shizuku');
+  const outgoing = [...conversation, {role:'user', content:message}].slice(-10);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 25000);
+  try {
+    const response = await fetch(workerUrl, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'X-Shizuku-Token':testToken},
+      body: JSON.stringify({messages:outgoing}),
+      signal: controller.signal
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || typeof result.reply !== 'string') {
+      if (response.status === 401) {
+        testToken = null;
+        conversation = [];
+        modeButton.textContent = '🔐 AIテストを開始';
+        modeText.textContent = '合言葉が一致しません。もう一度AIテストを開始してください。';
+        throw new Error('合言葉が違うみたい。もう一度確認してね。');
+      }
+      if (response.status === 429) throw new Error('利用回数の制限に達したよ。またあとで試してね。');
+      throw new Error('AIとの通信でエラーが発生したよ（' + response.status + '）。');
+    }
+    pending.textContent = result.reply;
+    conversation = [...outgoing, {role:'assistant', content:result.reply}].slice(-10);
+  } catch (error) {
+    pending.textContent = error.name === 'AbortError' ? '通信がタイムアウトしたよ。少ししてから試してね。' : (error.message || '通信できなかったよ。');
+  } finally {
+    clearTimeout(timeout);
+    busy = false;
+    sendButton.disabled = false;
+    modeButton.disabled = false;
+    input.focus();
+  }
+});
+addMessage('こんにちは…！紫乃しずくだよ💜 よかったら、お話ししない？', 'shizuku');
 </script>
 </body>
 </html>
