@@ -1,46 +1,47 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>紫乃しずく VTuber</title>
-  <style>
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: linear-gradient(#f6d6f5, #d6b8ff);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      font-family: sans-serif;
-      color: #694b87;
-    }
-    img {
-      width: 85%;
-      max-width: 420px;
-      border-radius: 20px;
-    }
-    button {
-      padding: 14px 24px;
-      margin-top: 20px;
-      border: 0;
-      border-radius: 30px;
-      background: #a36ad6;
-      color: white;
-      font-size: 18px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>紫乃しずく | おしゃべりルーム</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#f8eaff,#e9e0fa);font-family:system-ui,sans-serif;color:#503c65;display:flex;justify-content:center}main{width:min(100%,480px);padding:20px 16px 32px;text-align:center}h1{font-size:24px;margin:12px 0}img{display:block;width:75%;max-width:280px;max-height:310px;object-fit:cover;object-position:top;border-radius:22px;margin:0 auto 16px;box-shadow:0 8px 24px #79608d33}.hint{font-size:13px;color:#756583;margin:0 0 14px}.chat{height:280px;overflow-y:auto;text-align:left;background:#ffffffbb;border:1px solid #e6d6ef;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}.bubble{padding:10px 13px;border-radius:16px;max-width:88%;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.shizuku{align-self:flex-start;background:#f1e4fa}.you{align-self:flex-end;background:#d9c0ef}.input-row{display:flex;gap:8px;margin-top:12px}input{min-width:0;flex:1;border:1px solid #d4bce5;border-radius:22px;padding:13px;font-size:16px}button{border:0;border-radius:22px;padding:12px 19px;background:#a36ad6;color:white;font-size:16px;font-weight:600}button:active{opacity:.8}.note{font-size:12px;color:#7b6a89;margin-top:12px}
+</style>
 </head>
 <body>
-  <h2>💜 紫乃しずく 💜</h2>
-  <img id="shizuku" src="shizuku.jpg" alt="紫乃しずく">
-  <button onclick="greet()">しずくに挨拶する</button>
-  <script>
-    function greet() {
-      alert("こんにちは！紫乃しずくです💜");
-    }
-  </script>
+<main>
+<h1>💜 紫乃しずく 💜</h1>
+<img src="shizuku.jpg" alt="紫乃しずく">
+<p class="hint">恥ずかしがり屋だけど、おしゃべりは大好き…！</p>
+<div class="chat" id="chat" role="log" aria-live="polite" aria-label="しずくとの会話"></div>
+<form id="chatForm" class="input-row">
+<input id="message" placeholder="しずくに話しかけてね" maxlength="200" autocomplete="off" aria-label="メッセージ">
+<button type="submit">送信 💜</button>
+</form>
+<p class="note">お試し版：決まった会話パターンで返事をするよ（AI接続はまだ）</p>
+</main>
+<script>
+const chat=document.getElementById('chat');
+const input=document.getElementById('message');
+const form=document.getElementById('chatForm');
+let count=0;
+function addMessage(text,who){const div=document.createElement('div');div.className='bubble '+who;div.textContent=text;chat.appendChild(div);chat.scrollTop=chat.scrollHeight;}
+function reply(message){
+const m=message.toLowerCase();
+if(/初見|はじめまして|初めまして/.test(m))return 'はじめまして！紫乃しずくだよ💜 来てくれてうれしいな！今日は何してたの？';
+if(/こんにちは|こんちは|やっほ|こんばんは|おはよう/.test(m))return 'わぁ、来てくれたんだ！えへへ、うれしい💜 今日はどんな一日だった？';
+if(/名前|誰|だれ/.test(m))return '紫乃しずく、20歳だよ！ちょっと照れ屋だけど、仲良くしてね💜';
+if(/好き|推し/.test(m))return 'えっ、好きって言われると照れちゃう…！💜 どんなものが好きなの？';
+if(/疲れ|つかれ|しんど|仕事/.test(m))return '今日もおつかれさま…！無理しすぎないでね。ここではゆっくりしていって💜';
+if(/かわいい|可愛い|きれい/.test(m))return 'えっ…ほ、本当に！？ありがとう…！照れちゃうよ〜💜';
+if(/おやすみ|寝る|ねむい|眠い/.test(m))return 'うん、ゆっくり休んでね。いい夢見られますように…おやすみ💜';
+if(/ありがとう|ありがと/.test(m))return 'こちらこそありがとう！お話できてうれしいな💜';
+if(/元気|げんき/.test(m))return 'うん！会いに来てくれたから元気になったよ💜 そっちはどう？';
+const choices=['うんうん、聞いてるよ💜 それでどうなったの？','えへへ、もっとお話ししたいな！最近楽しかったことある？','そうなんだ！教えてくれてありがとう💜','わぁ、気になる…！もう少し詳しく聞いてもいい？'];
+return choices[count++%choices.length];
+}
+form.addEventListener('submit',event=>{event.preventDefault();const message=input.value.trim();if(!message)return;addMessage(message,'you');input.value='';addMessage(reply(message),'shizuku');input.focus();});
+addMessage('こんにちは…！紫乃しずくだよ💜 よかったら、お話ししない？','shizuku');
+</script>
 </body>
 </html>
