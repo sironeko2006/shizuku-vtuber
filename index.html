@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>紫乃しずく | おしゃべりルーム</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#f8eaff,#e9e0fa);font-family:system-ui,sans-serif;color:#503c65;display:flex;justify-content:center}main{width:min(100%,480px);padding:20px 16px 32px;text-align:center}h1{font-size:24px;margin:12px 0}img{display:block;width:75%;max-width:280px;max-height:310px;object-fit:cover;object-position:top;border-radius:22px;margin:0 auto 16px;box-shadow:0 8px 24px #79608d33}.hint{font-size:13px;color:#756583;margin:0 0 14px}.chat{height:280px;overflow-y:auto;text-align:left;background:#ffffffbb;border:1px solid #e6d6ef;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}.bubble{padding:10px 13px;border-radius:16px;max-width:88%;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.shizuku{align-self:flex-start;background:#f1e4fa}.you{align-self:flex-end;background:#d9c0ef}.input-row{display:flex;gap:8px;margin-top:12px}input{min-width:0;flex:1;border:1px solid #d4bce5;border-radius:22px;padding:13px;font-size:16px}button{border:0;border-radius:22px;padding:12px 19px;background:#a36ad6;color:white;font-size:16px;font-weight:600}button:active{opacity:.8}button:disabled{opacity:.55}.note{font-size:12px;color:#7b6a89;margin-top:12px}.mode-row{display:flex;justify-content:center;margin-top:12px}.mode-button{font-size:13px;padding:10px 16px;background:#8054a6}#modeText{margin:9px 0 0;font-size:12px;color:#68567a}[hidden]{display:none!important}.token-panel{margin:12px 0 0;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#fff9}.token-panel label{display:block;font-size:13px;margin-bottom:8px}.token-row{display:flex;gap:8px}.token-row button{font-size:13px}.cancel-token{margin-top:8px;background:#b3a2c2;font-size:13px;padding:8px 12px}.memory-panel{margin-top:16px;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#ffffff99;text-align:left}.memory-label{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;cursor:pointer}.memory-label input{flex:0 0 auto;min-width:auto;width:20px;height:20px;accent-color:#8054a6}.memory-help{font-size:12px;line-height:1.5;color:#68567a;margin:8px 0}.memory-clear{font-size:12px;background:#b3a2c2;padding:8px 12px}.memory-status{font-size:12px;margin:8px 0 0;color:#68567a}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#f8eaff,#e9e0fa);font-family:system-ui,sans-serif;color:#503c65;display:flex;justify-content:center}main{width:min(100%,480px);padding:20px 16px 32px;text-align:center}h1{font-size:24px;margin:12px 0}img{display:block;width:75%;max-width:280px;max-height:310px;object-fit:cover;object-position:top;border-radius:22px;margin:0 auto 16px;box-shadow:0 8px 24px #79608d33}.hint{font-size:13px;color:#756583;margin:0 0 14px}.chat{height:280px;overflow-y:auto;text-align:left;background:#ffffffbb;border:1px solid #e6d6ef;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}.bubble{padding:10px 13px;border-radius:16px;max-width:88%;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.shizuku{align-self:flex-start;background:#f1e4fa}.you{align-self:flex-end;background:#d9c0ef}.input-row{display:flex;gap:8px;margin-top:12px}input{min-width:0;flex:1;border:1px solid #d4bce5;border-radius:22px;padding:13px;font-size:16px}button{border:0;border-radius:22px;padding:12px 19px;background:#a36ad6;color:white;font-size:16px;font-weight:600}button:active{opacity:.8}button:disabled{opacity:.55}.note{font-size:12px;color:#7b6a89;margin-top:12px}.mode-row{display:flex;justify-content:center;margin-top:12px}.mode-button{font-size:13px;padding:10px 16px;background:#8054a6}#modeText{margin:9px 0 0;font-size:12px;color:#68567a}[hidden]{display:none!important}.token-panel{margin:12px 0 0;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#fff9}.token-panel label{display:block;font-size:13px;margin-bottom:8px}.token-row{display:flex;gap:8px}.token-row button{font-size:13px}.cancel-token{margin-top:8px;background:#b3a2c2;font-size:13px;padding:8px 12px}.memory-panel{margin-top:16px;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#ffffff99;text-align:left}.memory-label{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;cursor:pointer}.memory-label input{flex:0 0 auto;min-width:auto;width:20px;height:20px;accent-color:#8054a6}.memory-help{font-size:12px;line-height:1.5;color:#68567a;margin:8px 0}.memory-clear{font-size:12px;background:#b3a2c2;padding:8px 12px}.memory-status{font-size:12px;margin:8px 0 0;color:#68567a}.voice-panel{margin-top:14px;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#fff9;text-align:left}.voice-title{font-size:15px;font-weight:700;margin:0 0 10px}.voice-actions{display:flex;gap:8px;flex-wrap:wrap}.voice-actions button{padding:9px 12px;font-size:13px}.voice-replay{background:#9066b5}.voice-stop{background:#b3a2c2}.voice-toggle{display:flex;align-items:center;gap:10px;font-size:13px;margin-top:12px;cursor:pointer}.voice-toggle input{width:20px;height:20px;flex:0 0 auto;min-width:20px;accent-color:#8054a6}.voice-status{font-size:12px;color:#68567a;line-height:1.5;margin:9px 0 0}
 </style>
 </head>
 <body>
@@ -24,6 +24,17 @@
 <div class="token-row"><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" aria-label="テスト用合言葉"><button id="connectButton" type="button">接続</button></div>
 <button id="cancelButton" class="cancel-token" type="button">キャンセル</button>
 </div>
+<section class="voice-panel" aria-label="しずくの音声設定">
+<p class="voice-title">🎤 しずくの声（無料テスト）</p>
+<div class="voice-actions">
+<button id="voiceTestButton" type="button">🔊 声を試す</button>
+<button id="voiceReplayButton" type="button" class="voice-replay" disabled>🔊 最後の返事</button>
+<button id="voiceStopButton" type="button" class="voice-stop">⏹ 止める</button>
+</div>
+<label class="voice-toggle"><input id="autoVoiceCheckbox" type="checkbox"> しずくの返事を自動で読み上げる</label>
+<p id="voiceStatus" class="voice-status" role="status">まず「声を試す」を押してみてね。スマホの音量も確認してね。</p>
+<p class="voice-status">端末にある日本語音声を使用します。声質は端末によって違い、AIの追加音声料金はかかりません。</p>
+</section>
 <section class="memory-panel" aria-label="会話の記憶設定">
 <label class="memory-label"><input type="checkbox" id="rememberCheckbox"> この端末で前の会話を覚える 💜</label>
 <p class="memory-help">ONにすると直近10件のAI会話だけをこのブラウザ内に保存し、再読み込み後も会話を続けられます。合言葉やAPIキーは保存しません。共用端末ではOFFにしてね。</p>
@@ -48,6 +59,59 @@ const cancelButton = document.getElementById('cancelButton');
 const rememberCheckbox = document.getElementById('rememberCheckbox');
 const clearMemoryButton = document.getElementById('clearMemoryButton');
 const memoryStatus = document.getElementById('memoryStatus');
+const voiceTestButton = document.getElementById('voiceTestButton');
+const voiceReplayButton = document.getElementById('voiceReplayButton');
+const voiceStopButton = document.getElementById('voiceStopButton');
+const autoVoiceCheckbox = document.getElementById('autoVoiceCheckbox');
+const voiceStatus = document.getElementById('voiceStatus');
+const voiceSupported = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+let latestReply = '';
+function speakAsShizuku(text) {
+  if (!voiceSupported) {
+    voiceStatus.textContent = 'このブラウザは読み上げに対応していないみたい。Chromeで試してね。';
+    return;
+  }
+  try {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ja-JP';
+    utterance.rate = 1.02;
+    utterance.pitch = 1.23;
+    utterance.volume = 1;
+    const japaneseVoices = window.speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('ja'));
+    if (japaneseVoices.length) utterance.voice = japaneseVoices[0];
+    utterance.onstart = () => { voiceStatus.textContent = 'しずくが話しているよ…💜'; };
+    utterance.onend = () => { voiceStatus.textContent = '読み上げが終わったよ💜'; };
+    utterance.onerror = event => {
+      if (event.error !== 'canceled' && event.error !== 'interrupted') voiceStatus.textContent = '音声を再生できなかったよ。Chrome・端末の読み上げ設定を確認してね。';
+    };
+    voiceStatus.textContent = '音声を準備中…（音量を確認してね）';
+    window.speechSynthesis.speak(utterance);
+  } catch (error) {
+    voiceStatus.textContent = '音声を利用できなかったよ。Chromeで開いてみてね。';
+  }
+}
+function setLatestReply(text) {
+  latestReply = text;
+  voiceReplayButton.disabled = false;
+  if (autoVoiceCheckbox.checked) speakAsShizuku(text);
+}
+if (!voiceSupported) {
+  voiceTestButton.disabled = true;
+  voiceReplayButton.disabled = true;
+  voiceStatus.textContent = 'このブラウザでは読み上げに対応していないみたい。Chromeで試してね。';
+}
+voiceTestButton.addEventListener('click', () => speakAsShizuku('こんにちは！紫乃しずくだよ。あなたとおしゃべりできて、うれしいな！'));
+voiceReplayButton.addEventListener('click', () => { if (latestReply) speakAsShizuku(latestReply); });
+voiceStopButton.addEventListener('click', () => {
+  if (voiceSupported) window.speechSynthesis.cancel();
+  voiceStatus.textContent = '読み上げを止めたよ。';
+});
+autoVoiceCheckbox.addEventListener('change', () => {
+  voiceStatus.textContent = autoVoiceCheckbox.checked
+    ? '次のしずくの返事から自動で読むよ。音が出なければ「最後の返事」を押してね。'
+    : '自動読み上げはOFFだよ。ボタンでいつでも声を聞けるよ。';
+});
 const workerUrl = 'https://shizuku-ai.sironeko2006-m.workers.dev/';
 let testToken = null; // ブラウザのメモリだけで保持。GitHubや端末には保存しない。
 let busy = false;
@@ -108,6 +172,9 @@ rememberCheckbox.addEventListener('change', () => {
 clearMemoryButton.addEventListener('click', () => {
   if (!confirm('端末に保存した会話と、現在のAI会話履歴を削除しますか？')) return;
   conversation = [];
+  latestReply = '';
+  voiceReplayButton.disabled = true;
+  if (voiceSupported) window.speechSynthesis.cancel();
   try { localStorage.removeItem(memoryKey); } catch (error) {}
   chat.replaceChildren();
   addMessage('記憶をリセットしたよ💜 また最初からお話ししよう！', 'shizuku');
@@ -175,7 +242,9 @@ form.addEventListener('submit', async event => {
   input.value = '';
   addMessage(message, 'you');
   if (testToken === null) {
-    addMessage(demoReply(message), 'shizuku');
+    const demoAnswer = demoReply(message);
+    addMessage(demoAnswer, 'shizuku');
+    setLatestReply(demoAnswer);
     input.focus();
     return;
   }
@@ -206,6 +275,7 @@ form.addEventListener('submit', async event => {
       throw new Error('AIとの通信でエラーが発生したよ（' + response.status + '）。');
     }
     pending.textContent = result.reply;
+    setLatestReply(result.reply);
     conversation = [...outgoing, {role:'assistant', content:result.reply}].slice(-10);
     saveMemory();
   } catch (error) {
@@ -222,6 +292,8 @@ loadMemory();
 if (conversation.length > 0) {
   addMessage('おかえり！前の会話を読み込んだよ💜 AIテストを開始すると続きから話せるよ。', 'shizuku');
   for (const item of conversation) addMessage(item.content, item.role === 'user' ? 'you' : 'shizuku');
+  const lastAssistant = [...conversation].reverse().find(item => item.role === 'assistant');
+  if (lastAssistant) { latestReply = lastAssistant.content; voiceReplayButton.disabled = !voiceSupported; }
 } else {
   addMessage('こんにちは…！紫乃しずくだよ💜 よかったら、お話ししない？', 'shizuku');
 }
