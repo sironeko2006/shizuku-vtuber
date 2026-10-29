@@ -6,6 +6,15 @@
 <title>紫乃しずく | おしゃべりルーム</title>
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#f8eaff,#e9e0fa);font-family:system-ui,sans-serif;color:#503c65;display:flex;justify-content:center}main{width:min(100%,480px);padding:20px 16px 32px;text-align:center}h1{font-size:24px;margin:12px 0}img{display:block;width:75%;max-width:280px;max-height:310px;object-fit:cover;object-position:top;border-radius:22px;margin:0 auto 16px;box-shadow:0 8px 24px #79608d33}.hint{font-size:13px;color:#756583;margin:0 0 14px}.chat{height:280px;overflow-y:auto;text-align:left;background:#ffffffbb;border:1px solid #e6d6ef;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}.bubble{padding:10px 13px;border-radius:16px;max-width:88%;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.shizuku{align-self:flex-start;background:#f1e4fa}.you{align-self:flex-end;background:#d9c0ef}.input-row{display:flex;gap:8px;margin-top:12px}input{min-width:0;flex:1;border:1px solid #d4bce5;border-radius:22px;padding:13px;font-size:16px}button{border:0;border-radius:22px;padding:12px 19px;background:#a36ad6;color:white;font-size:16px;font-weight:600}button:active{opacity:.8}button:disabled{opacity:.55}.note{font-size:12px;color:#7b6a89;margin-top:12px}.mode-row{display:flex;justify-content:center;margin-top:12px}.mode-button{font-size:13px;padding:10px 16px;background:#8054a6}#modeText{margin:9px 0 0;font-size:12px;color:#68567a}[hidden]{display:none!important}.token-panel{margin:12px 0 0;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#fff9}.token-panel label{display:block;font-size:13px;margin-bottom:8px}.token-row{display:flex;gap:8px}.token-row button{font-size:13px}.cancel-token{margin-top:8px;background:#b3a2c2;font-size:13px;padding:8px 12px}.memory-panel{margin-top:16px;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#ffffff99;text-align:left}.memory-label{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;cursor:pointer}.memory-label input{flex:0 0 auto;min-width:auto;width:20px;height:20px;accent-color:#8054a6}.memory-help{font-size:12px;line-height:1.5;color:#68567a;margin:8px 0}.memory-clear{font-size:12px;background:#b3a2c2;padding:8px 12px}.memory-status{font-size:12px;margin:8px 0 0;color:#68567a}.voice-panel{margin-top:14px;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#fff9;text-align:left}.voice-title{font-size:15px;font-weight:700;margin:0 0 10px}.voice-actions{display:flex;gap:8px;flex-wrap:wrap}.voice-actions button{padding:9px 12px;font-size:13px}.voice-replay{background:#9066b5}.voice-stop{background:#b3a2c2}.voice-toggle{display:flex;align-items:center;gap:10px;font-size:13px;margin-top:12px;cursor:pointer}.voice-toggle input{width:20px;height:20px;flex:0 0 auto;min-width:20px;accent-color:#8054a6}.voice-status{font-size:12px;color:#68567a;line-height:1.5;margin:9px 0 0}
+
+/* ElevenLabs専用ボイス（オプトイン／有料クレジット） */
+.premium-voice{margin-top:14px;padding:14px;border:1px solid #cbb4e2;border-radius:16px;background:#fff9;text-align:left}
+.premium-voice h2{font-size:15px;margin:0 0 8px;color:#62417e}
+.premium-voice .voice-actions{margin:10px 0}
+.premium-voice .voice-actions button{background:#9262bb}
+.premium-voice .voice-actions button:disabled{background:#bfb3c9}
+.premium-voice audio{display:block;width:100%;margin-top:10px;height:44px}
+.premium-voice .small{font-size:12px;color:#6e577b;line-height:1.5;margin:7px 0}
 </style>
 </head>
 <body>
@@ -34,6 +43,20 @@
 <label class="voice-toggle"><input id="autoVoiceCheckbox" type="checkbox"> しずくの返事を自動で読み上げる</label>
 <p id="voiceStatus" class="voice-status" role="status">まず「声を試す」を押してみてね。スマホの音量も確認してね。</p>
 <p class="voice-status">端末にある日本語音声を使用します。声質は端末によって違い、AIの追加音声料金はかかりません。</p>
+</section>
+
+<section class="premium-voice" aria-label="ElevenLabs専用ボイスの設定">
+  <h2>💜 しずく専用ボイス（ElevenLabs）</h2>
+  <p class="small">自分で作った「紫乃しずく」の声を使用します。音声を生成するとElevenLabsのクレジットを消費します。</p>
+  <div class="voice-actions">
+    <button id="premiumVoiceTest" type="button">🎤 専用の声を試す</button>
+    <button id="premiumVoiceReplay" type="button" disabled>🔊 最後の返事を再生</button>
+    <button id="premiumVoiceStop" class="voice-stop" type="button">⏹ 止める</button>
+  </div>
+  <label class="voice-toggle"><input type="checkbox" id="premiumAutoVoice"> AIの返事を自動で専用ボイスにする</label>
+  <p class="small">最初はOFF。ONにすると、AIの返事が届くたびに音声を生成します。<strong>テスト用の合言葉でAIに接続しているときだけ使えます。</strong> 自動再生できない場合は下の▶を押してください。</p>
+  <audio id="premiumAudio" controls preload="none" hidden aria-label="紫乃しずく専用ボイスの音声"></audio>
+  <p id="premiumVoiceStatus" class="voice-status" role="status">まずAIテストに接続して「専用の声を試す」を押してね。</p>
 </section>
 <section class="memory-panel" aria-label="会話の記憶設定">
 <label class="memory-label"><input type="checkbox" id="rememberCheckbox"> この端末で前の会話を覚える 💜</label>
@@ -93,7 +116,8 @@ function speakAsShizuku(text) {
 }
 function setLatestReply(text) {
   latestReply = text;
-  voiceReplayButton.disabled = false;
+  voiceReplayButton.disabled = !voiceSupported;
+  premiumVoiceReplay.disabled = false;
   if (autoVoiceCheckbox.checked) speakAsShizuku(text);
 }
 if (!voiceSupported) {
@@ -108,11 +132,111 @@ voiceStopButton.addEventListener('click', () => {
   voiceStatus.textContent = '読み上げを止めたよ。';
 });
 autoVoiceCheckbox.addEventListener('change', () => {
+  if (autoVoiceCheckbox.checked) premiumAutoVoice.checked = false;
   voiceStatus.textContent = autoVoiceCheckbox.checked
     ? '次のしずくの返事から自動で読むよ。音が出なければ「最後の返事」を押してね。'
     : '自動読み上げはOFFだよ。ボタンでいつでも声を聞けるよ。';
 });
 const workerUrl = 'https://shizuku-ai.sironeko2006-m.workers.dev/';
+
+// ElevenLabs音声生成は同じCloudflare Worker経由。APIキー・合言葉を公開HTMLへ書かない。
+const premiumVoiceTest = document.getElementById('premiumVoiceTest');
+const premiumVoiceReplay = document.getElementById('premiumVoiceReplay');
+const premiumVoiceStop = document.getElementById('premiumVoiceStop');
+const premiumAutoVoice = document.getElementById('premiumAutoVoice');
+const premiumAudio = document.getElementById('premiumAudio');
+const premiumVoiceStatus = document.getElementById('premiumVoiceStatus');
+let premiumVoiceBusy = false;
+let premiumAudioUrl = null;
+let premiumController = null;
+function clearPremiumAudio() {
+  premiumAudio.pause();
+  premiumAudio.removeAttribute('src');
+  premiumAudio.load();
+  premiumAudio.hidden = true;
+  if (premiumAudioUrl) URL.revokeObjectURL(premiumAudioUrl);
+  premiumAudioUrl = null;
+}
+function stopPremiumVoice() {
+  if (premiumController) premiumController.abort();
+  premiumController = null;
+  clearPremiumAudio();
+  premiumVoiceBusy = false;
+  premiumVoiceTest.disabled = false;
+  premiumVoiceReplay.disabled = !latestReply;
+  premiumVoiceStatus.textContent = '専用ボイスを止めたよ。';
+}
+async function generatePremiumVoice(text) {
+  if (premiumVoiceBusy) {
+    premiumVoiceStatus.textContent = '音声を生成中だよ。少ししてからもう一度押してね。';
+    return;
+  }
+  if (testToken === null) {
+    premiumVoiceStatus.textContent = '先に「🔐 AIテストを開始」から合言葉で接続してね。';
+    return;
+  }
+  const shortText = String(text || '').trim().slice(0, 200);
+  if (!shortText) return;
+  // 意図しないクレジット消費を防ぐため、1度の操作で1回のみ生成。
+  premiumVoiceBusy = true;
+  premiumVoiceTest.disabled = true;
+  premiumVoiceReplay.disabled = true;
+  clearPremiumAudio();
+  if (voiceSupported) window.speechSynthesis.cancel();
+  premiumVoiceStatus.textContent = 'しずくの専用ボイスを生成中…💜';
+  const controller = new AbortController();
+  premiumController = controller;
+  const timeout = setTimeout(() => controller.abort(), 30000);
+  try {
+    const res = await fetch(workerUrl, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','X-Shizuku-Token':testToken},
+      body:JSON.stringify({action:'speak',text:shortText}),
+      signal:controller.signal
+    });
+    if (!res.ok) {
+      if (res.status === 401) throw new Error('合言葉が違うみたい。AIテストに接続し直してね。');
+      let detail = {};
+      try { detail = await res.json(); } catch (_) {}
+      if (detail.providerStatus === 401) throw new Error('ElevenLabs APIキーの権限・有効期限を確認してね。');
+      if (detail.providerStatus === 402 || detail.providerStatus === 429) throw new Error('ElevenLabsのクレジットや利用制限を確認してね。');
+      throw new Error('音声生成に失敗したよ（' + res.status + (detail.providerStatus ? ' / ElevenLabs '+detail.providerStatus : '') + '）。');
+    }
+    const type = (res.headers.get('Content-Type') || '').toLowerCase();
+    if (!type.includes('audio/')) throw new Error('音声以外のデータが返ってきたよ。');
+    const blob = await res.blob();
+    if (!blob.size) throw new Error('音声ファイルが空だったよ。');
+    premiumAudioUrl = URL.createObjectURL(blob);
+    premiumAudio.src = premiumAudioUrl;
+    premiumAudio.hidden = false;
+    premiumVoiceStatus.textContent = '専用ボイスができたよ！💜 聞こえなければ▶を押してね。';
+    // Androidのブラウザでは非同期生成後の自動再生がブロックされることがある。
+    try { await premiumAudio.play(); }
+    catch (_) { premiumVoiceStatus.textContent = '音声ができたよ！💜 下の再生ボタン▶を押してね。'; }
+  } catch (error) {
+    premiumVoiceStatus.textContent = error.name === 'AbortError'
+      ? '音声生成を中止したよ。'
+      : (error.message || '音声が作れなかったよ。');
+  } finally {
+    clearTimeout(timeout);
+    if (premiumController === controller) premiumController = null;
+    premiumVoiceBusy = false;
+    premiumVoiceTest.disabled = false;
+    premiumVoiceReplay.disabled = !latestReply;
+  }
+}
+premiumVoiceTest.addEventListener('click', () => generatePremiumVoice('こんにちは！しずくだよ！'));
+premiumVoiceReplay.addEventListener('click', () => { if (latestReply) generatePremiumVoice(latestReply); });
+premiumVoiceStop.addEventListener('click', stopPremiumVoice);
+premiumAutoVoice.addEventListener('change', () => {
+  if (premiumAutoVoice.checked) {
+    autoVoiceCheckbox.checked = false;
+    premiumVoiceStatus.textContent = '専用ボイスの自動生成がONだよ。AI会話の返事ごとにクレジットを使うよ。';
+  } else {
+    premiumVoiceStatus.textContent = '自動生成はOFF。ボタンから必要なときだけ声を作れるよ。';
+  }
+});
+
 let testToken = null; // ブラウザのメモリだけで保持。GitHubや端末には保存しない。
 let busy = false;
 let count = 0;
@@ -173,6 +297,9 @@ clearMemoryButton.addEventListener('click', () => {
   if (!confirm('端末に保存した会話と、現在のAI会話履歴を削除しますか？')) return;
   conversation = [];
   latestReply = '';
+  premiumVoiceReplay.disabled = true;
+  premiumAutoVoice.checked = false;
+  stopPremiumVoice();
   voiceReplayButton.disabled = true;
   if (voiceSupported) window.speechSynthesis.cancel();
   try { localStorage.removeItem(memoryKey); } catch (error) {}
@@ -206,6 +333,8 @@ modeButton.addEventListener('click', () => {
   if (busy) return;
   if (testToken !== null) {
     testToken = null;
+    premiumAutoVoice.checked = false;
+    stopPremiumVoice();
     if (!memoryEnabled) conversation = [];
     modeButton.textContent = '🔐 AIテストを開始';
     modeText.textContent = 'お試し会話モードに戻りました。合言葉は破棄しました。';
@@ -276,6 +405,7 @@ form.addEventListener('submit', async event => {
     }
     pending.textContent = result.reply;
     setLatestReply(result.reply);
+    if (premiumAutoVoice.checked) void generatePremiumVoice(result.reply);
     conversation = [...outgoing, {role:'assistant', content:result.reply}].slice(-10);
     saveMemory();
   } catch (error) {
@@ -293,10 +423,11 @@ if (conversation.length > 0) {
   addMessage('おかえり！前の会話を読み込んだよ💜 AIテストを開始すると続きから話せるよ。', 'shizuku');
   for (const item of conversation) addMessage(item.content, item.role === 'user' ? 'you' : 'shizuku');
   const lastAssistant = [...conversation].reverse().find(item => item.role === 'assistant');
-  if (lastAssistant) { latestReply = lastAssistant.content; voiceReplayButton.disabled = !voiceSupported; }
+  if (lastAssistant) { latestReply = lastAssistant.content; voiceReplayButton.disabled = !voiceSupported; premiumVoiceReplay.disabled = false; }
 } else {
   addMessage('こんにちは…！紫乃しずくだよ💜 よかったら、お話ししない？', 'shizuku');
 }
+window.addEventListener('pagehide', () => { if (premiumAudioUrl) URL.revokeObjectURL(premiumAudioUrl); });
 </script>
 </body>
 </html>
