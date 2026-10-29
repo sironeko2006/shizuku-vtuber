@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>紫乃しずく | おしゃべりルーム</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#f8eaff,#e9e0fa);font-family:system-ui,sans-serif;color:#503c65;display:flex;justify-content:center}main{width:min(100%,480px);padding:20px 16px 32px;text-align:center}h1{font-size:24px;margin:12px 0}img{display:block;width:75%;max-width:280px;max-height:310px;object-fit:cover;object-position:top;border-radius:22px;margin:0 auto 16px;box-shadow:0 8px 24px #79608d33}.hint{font-size:13px;color:#756583;margin:0 0 14px}.chat{height:280px;overflow-y:auto;text-align:left;background:#ffffffbb;border:1px solid #e6d6ef;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}.bubble{padding:10px 13px;border-radius:16px;max-width:88%;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.shizuku{align-self:flex-start;background:#f1e4fa}.you{align-self:flex-end;background:#d9c0ef}.input-row{display:flex;gap:8px;margin-top:12px}input{min-width:0;flex:1;border:1px solid #d4bce5;border-radius:22px;padding:13px;font-size:16px}button{border:0;border-radius:22px;padding:12px 19px;background:#a36ad6;color:white;font-size:16px;font-weight:600}button:active{opacity:.8}button:disabled{opacity:.55}.note{font-size:12px;color:#7b6a89;margin-top:12px}.mode-row{display:flex;justify-content:center;margin-top:12px}.mode-button{font-size:13px;padding:10px 16px;background:#8054a6}#modeText{margin:9px 0 0;font-size:12px;color:#68567a}[hidden]{display:none!important}.token-panel{margin:12px 0 0;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#fff9}.token-panel label{display:block;font-size:13px;margin-bottom:8px}.token-row{display:flex;gap:8px}.token-row button{font-size:13px}.cancel-token{margin-top:8px;background:#b3a2c2;font-size:13px;padding:8px 12px}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#f8eaff,#e9e0fa);font-family:system-ui,sans-serif;color:#503c65;display:flex;justify-content:center}main{width:min(100%,480px);padding:20px 16px 32px;text-align:center}h1{font-size:24px;margin:12px 0}img{display:block;width:75%;max-width:280px;max-height:310px;object-fit:cover;object-position:top;border-radius:22px;margin:0 auto 16px;box-shadow:0 8px 24px #79608d33}.hint{font-size:13px;color:#756583;margin:0 0 14px}.chat{height:280px;overflow-y:auto;text-align:left;background:#ffffffbb;border:1px solid #e6d6ef;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}.bubble{padding:10px 13px;border-radius:16px;max-width:88%;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.shizuku{align-self:flex-start;background:#f1e4fa}.you{align-self:flex-end;background:#d9c0ef}.input-row{display:flex;gap:8px;margin-top:12px}input{min-width:0;flex:1;border:1px solid #d4bce5;border-radius:22px;padding:13px;font-size:16px}button{border:0;border-radius:22px;padding:12px 19px;background:#a36ad6;color:white;font-size:16px;font-weight:600}button:active{opacity:.8}button:disabled{opacity:.55}.note{font-size:12px;color:#7b6a89;margin-top:12px}.mode-row{display:flex;justify-content:center;margin-top:12px}.mode-button{font-size:13px;padding:10px 16px;background:#8054a6}#modeText{margin:9px 0 0;font-size:12px;color:#68567a}[hidden]{display:none!important}.token-panel{margin:12px 0 0;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#fff9}.token-panel label{display:block;font-size:13px;margin-bottom:8px}.token-row{display:flex;gap:8px}.token-row button{font-size:13px}.cancel-token{margin-top:8px;background:#b3a2c2;font-size:13px;padding:8px 12px}.memory-panel{margin-top:16px;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#ffffff99;text-align:left}.memory-label{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;cursor:pointer}.memory-label input{flex:0 0 auto;min-width:auto;width:20px;height:20px;accent-color:#8054a6}.memory-help{font-size:12px;line-height:1.5;color:#68567a;margin:8px 0}.memory-clear{font-size:12px;background:#b3a2c2;padding:8px 12px}.memory-status{font-size:12px;margin:8px 0 0;color:#68567a}
 </style>
 </head>
 <body>
@@ -24,6 +24,12 @@
 <div class="token-row"><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" aria-label="テスト用合言葉"><button id="connectButton" type="button">接続</button></div>
 <button id="cancelButton" class="cancel-token" type="button">キャンセル</button>
 </div>
+<section class="memory-panel" aria-label="会話の記憶設定">
+<label class="memory-label"><input type="checkbox" id="rememberCheckbox"> この端末で前の会話を覚える 💜</label>
+<p class="memory-help">ONにすると直近10件のAI会話だけをこのブラウザ内に保存し、再読み込み後も会話を続けられます。合言葉やAPIキーは保存しません。共用端末ではOFFにしてね。</p>
+<button id="clearMemoryButton" class="memory-clear" type="button">保存した会話を消す</button>
+<p id="memoryStatus" class="memory-status" role="status"></p>
+</section>
 <p id="modeText">現在はお試し会話モード。AI接続はテスト用の合言葉が必要です。</p>
 <p class="note">AIテストではAPI利用料金が発生します。合言葉はページを閉じると破棄され、保存されません。</p>
 </main>
@@ -39,11 +45,74 @@ const tokenPanel = document.getElementById('tokenPanel');
 const tokenInput = document.getElementById('tokenInput');
 const connectButton = document.getElementById('connectButton');
 const cancelButton = document.getElementById('cancelButton');
+const rememberCheckbox = document.getElementById('rememberCheckbox');
+const clearMemoryButton = document.getElementById('clearMemoryButton');
+const memoryStatus = document.getElementById('memoryStatus');
 const workerUrl = 'https://shizuku-ai.sironeko2006-m.workers.dev/';
 let testToken = null; // ブラウザのメモリだけで保持。GitHubや端末には保存しない。
 let busy = false;
 let count = 0;
 let conversation = [];
+// 会話だけを保存。合言葉は保存しない。ブラウザ内でのみ有効な記憶。
+const memoryKey = 'shizuku_ai_conversation_v1';
+const memoryPreferenceKey = 'shizuku_ai_remember_optin_v1';
+let memoryEnabled = false;
+function loadMemory() {
+  try {
+    memoryEnabled = localStorage.getItem(memoryPreferenceKey) === '1';
+    rememberCheckbox.checked = memoryEnabled;
+    if (memoryEnabled) {
+      const data = JSON.parse(localStorage.getItem(memoryKey) || '[]');
+      if (Array.isArray(data)) {
+        conversation = data.filter(item => item &&
+          (item.role === 'user' || item.role === 'assistant') &&
+          typeof item.content === 'string' && item.content.length <= 2000)
+          .slice(-10);
+      }
+    }
+    memoryStatus.textContent = memoryEnabled ? '記憶ON：前の会話を引き継げます。' : '記憶OFF：前の会話は保存しません。';
+  } catch (error) {
+    memoryEnabled = false;
+    rememberCheckbox.checked = false;
+    conversation = [];
+    memoryStatus.textContent = 'このブラウザでは保存を利用できません。';
+  }
+}
+function saveMemory() {
+  if (!memoryEnabled) return;
+  try {
+    localStorage.setItem(memoryKey, JSON.stringify(conversation.slice(-10)));
+    memoryStatus.textContent = '記憶ON：最近の会話を保存しました。';
+  } catch (error) {
+    memoryStatus.textContent = '保存できませんでした。ブラウザの設定を確認してね。';
+  }
+}
+rememberCheckbox.addEventListener('change', () => {
+  memoryEnabled = rememberCheckbox.checked;
+  try {
+    if (memoryEnabled) {
+      localStorage.setItem(memoryPreferenceKey, '1');
+      saveMemory();
+    } else {
+      localStorage.removeItem(memoryKey);
+      localStorage.removeItem(memoryPreferenceKey);
+      conversation = [];
+      memoryStatus.textContent = '記憶OFF：保存した会話を削除しました。';
+    }
+  } catch (error) {
+    memoryEnabled = false;
+    rememberCheckbox.checked = false;
+    memoryStatus.textContent = '保存できません。ブラウザの設定を確認してね。';
+  }
+});
+clearMemoryButton.addEventListener('click', () => {
+  if (!confirm('端末に保存した会話と、現在のAI会話履歴を削除しますか？')) return;
+  conversation = [];
+  try { localStorage.removeItem(memoryKey); } catch (error) {}
+  chat.replaceChildren();
+  addMessage('記憶をリセットしたよ💜 また最初からお話ししよう！', 'shizuku');
+  memoryStatus.textContent = '保存した会話を削除しました。';
+});
 function addMessage(text, who) {
   const div = document.createElement('div');
   div.className = 'bubble ' + who;
@@ -70,7 +139,7 @@ modeButton.addEventListener('click', () => {
   if (busy) return;
   if (testToken !== null) {
     testToken = null;
-    conversation = [];
+    if (!memoryEnabled) conversation = [];
     modeButton.textContent = '🔐 AIテストを開始';
     modeText.textContent = 'お試し会話モードに戻りました。合言葉は破棄しました。';
     addMessage('お試し会話モードに戻ったよ💜', 'shizuku');
@@ -85,7 +154,7 @@ connectButton.addEventListener('click', () => {
   tokenInput.value = '';
   if (!entered) return;
   testToken = entered;
-  conversation = [];
+  if (!memoryEnabled) conversation = [];
   tokenPanel.hidden = true;
   modeButton.textContent = '🔒 AIテストを終了';
   modeText.textContent = 'AIテストモード中。送信するとAPI料金が発生する場合があります。';
@@ -138,6 +207,7 @@ form.addEventListener('submit', async event => {
     }
     pending.textContent = result.reply;
     conversation = [...outgoing, {role:'assistant', content:result.reply}].slice(-10);
+    saveMemory();
   } catch (error) {
     pending.textContent = error.name === 'AbortError' ? '通信がタイムアウトしたよ。少ししてから試してね。' : (error.message || '通信できなかったよ。');
   } finally {
@@ -148,7 +218,13 @@ form.addEventListener('submit', async event => {
     input.focus();
   }
 });
-addMessage('こんにちは…！紫乃しずくだよ💜 よかったら、お話ししない？', 'shizuku');
+loadMemory();
+if (conversation.length > 0) {
+  addMessage('おかえり！前の会話を読み込んだよ💜 AIテストを開始すると続きから話せるよ。', 'shizuku');
+  for (const item of conversation) addMessage(item.content, item.role === 'user' ? 'you' : 'shizuku');
+} else {
+  addMessage('こんにちは…！紫乃しずくだよ💜 よかったら、お話ししない？', 'shizuku');
+}
 </script>
 </body>
 </html>
