@@ -359,6 +359,7 @@ modeButton.addEventListener('click', () => {
   if (busy) return;
   if (testToken !== null) {
     testToken = null;
+    stopAutoTalk();
     premiumAutoVoice.checked = false;
     stopPremiumVoice();
     if (!memoryEnabled) conversation = [];
@@ -449,12 +450,15 @@ form.addEventListener('submit', async event => {
 });
 let autoTalkRunning = false;
 let autoTalkTimer = null;
+let autoTalkLimitTimer = null;
 let autoTalkCount = 0;
-const AUTO_TALK_MAX_TURNS = 3;
+const AUTO_TALK_MAX_TURNS = 20;
 function stopAutoTalk() {
   autoTalkRunning = false;
   clearTimeout(autoTalkTimer);
   autoTalkTimer = null;
+  clearTimeout(autoTalkLimitTimer);
+autoTalkLimitTimer = null;
   autoTalkButton.textContent = testToken === null ? '🌸 自動トーク準備中' : '🌸 自動トーク開始';
 autoTalkButton.disabled = testToken === null;
 }
@@ -470,6 +474,9 @@ autoTalkButton.addEventListener('click', () => {
 }
   autoTalkRunning = true;
   autoTalkCount = 0;
+  autoTalkLimitTimer = setTimeout(() => {
+  if (autoTalkRunning) stopAutoTalk();
+}, 5 * 60 * 1000);
   autoTalkButton.textContent = '⏹ 自動トーク停止';
 autoTalkTimer = setTimeout(() => {
   if (!autoTalkRunning || testToken === null || busy) {
