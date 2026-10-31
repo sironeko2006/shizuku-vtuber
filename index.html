@@ -214,8 +214,9 @@ async function generatePremiumVoice(text) {
     premiumVoiceStatus.textContent = '専用ボイスができたよ！💜 聞こえなければ▶を押してね。';
     // Androidのブラウザでは非同期生成後の自動再生がブロックされることがある。
     try { await premiumAudio.play(); }
-    catch (_) { premiumVoiceStatus.textContent = '音声ができたよ！💜 下の再生ボタン▶を押してね。'; }
+    catch (_) {if (autoTalkRunning) stopAutoTalk(); premiumVoiceStatus.textContent = '音声ができたよ！💜 下の再生ボタン▶を押してね。'; }
   } catch (error) {
+   if (autoTalkRunning) stopAutoTalk();
     premiumVoiceStatus.textContent = error.name === 'AbortError'
       ? '音声生成を中止したよ。'
       : (error.message || '音声が作れなかったよ。');
@@ -238,7 +239,30 @@ premiumAutoVoice.addEventListener('change', () => {
     premiumVoiceStatus.textContent = '自動生成はOFF。ボタンから必要なときだけ声を作れるよ。';
   }
 });
+premiumAudio.addEventListener('ended', () => {
+  if (!autoTalkRunning) return;
 
+  if (autoTalkCount >= AUTO_TALK_MAX_TURNS) {
+    stopAutoTalk();
+    return;
+  }
+
+  autoTalkTimer = setTimeout(() => {
+    if (!autoTalkRunning) return;
+
+    if (testToken === null || busy || premiumVoiceBusy) {
+      stopAutoTalk();
+      return;
+    }
+
+    input.value = 'しずく、今の話から自然につなげて、別の身近な話題を少し話してね。';
+    form.requestSubmit();
+    autoTalkCount += 1;
+  }, 3000);
+});
+premiumAudio.addEventListener('error', () => {
+  if (autoTalkRunning) stopAutoTalk();
+});
 let testToken = null; // ブラウザのメモリだけで保持。GitHubや端末には保存しない。
 let busy = false;
 let count = 0;
@@ -413,6 +437,7 @@ form.addEventListener('submit', async event => {
     conversation = [...outgoing, {role:'assistant', content:result.reply}].slice(-10);
     saveMemory();
   } catch (error) {
+   if (autoTalkRunning) stopAutoTalk();
     pending.textContent = error.name === 'AbortError' ? '通信がタイムアウトしたよ。少ししてから試してね。' : (error.message || '通信できなかったよ。');
   } finally {
     clearTimeout(timeout);
@@ -439,6 +464,10 @@ autoTalkButton.addEventListener('click', () => {
     return;
   }
   if (testToken === null || busy) return;
+ if (!premiumAutoVoice.checked) {
+  alert('先に専用ボイスの自動読み上げをONにしてね！');
+  return;
+}
   autoTalkRunning = true;
   autoTalkCount = 0;
   autoTalkButton.textContent = '⏹ 自動トーク停止';
@@ -447,10 +476,10 @@ autoTalkTimer = setTimeout(() => {
     stopAutoTalk();
     return;
   }
-  input.value = 'しずく、自動トークのテストだよ。みんなに向けて自然な雑談を始めてね。';
+  input.value = 'しずく、みんなに向けて最近気になっていることをひとつ、明るく自然に話してみて！';
   form.requestSubmit();
   autoTalkCount += 1;
-  stopAutoTalk();
+  
 }, 1500);
 });
 loadMemory();
