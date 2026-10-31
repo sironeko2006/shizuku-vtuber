@@ -106,7 +106,14 @@ function speakAsShizuku(text) {
     const japaneseVoices = window.speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('ja'));
     if (japaneseVoices.length) utterance.voice = japaneseVoices[0];
     utterance.onstart = () => { voiceStatus.textContent = 'しずくが話しているよ…💜'; };
-    utterance.onend = () => { voiceStatus.textContent = '読み上げが終わったよ💜'; };
+    
+utterance.onend = () => {
+  voiceStatus.textContent = '読み上げが終わったよ💜';
+  if (autoTalkRunning && autoVoiceCheckbox.checked) {
+    scheduleFreeAutoTalk();
+  }
+};
+
     utterance.onerror = event => {
       if (event.error !== 'canceled' && event.error !== 'interrupted') voiceStatus.textContent = '音声を再生できなかったよ。Chrome・端末の読み上げ設定を確認してね。';
     };
@@ -453,7 +460,34 @@ let autoTalkTimer = null;
 let autoTalkLimitTimer = null;
 let autoTalkCount = 0;
 const AUTO_TALK_MAX_TURNS = 20;
-function stopAutoTalk() {
+
+function scheduleFreeAutoTalk() {
+  if (!autoTalkRunning || !autoVoiceCheckbox.checked) return;
+
+  
+if (autoTalkCount >= 240) {
+
+    stopAutoTalk();
+    return;
+  }
+
+  clearTimeout(autoTalkTimer);
+
+  autoTalkTimer = setTimeout(() => {
+    if (!autoTalkRunning) return;
+
+    if (testToken === null || busy || !autoVoiceCheckbox.checked || premiumAutoVoice.checked) {
+      stopAutoTalk();
+      return;
+    }
+
+    input.value = 'しずく、今の話から自然につなげて、別の身近な話題を少し話してね。';
+    form.requestSubmit();
+    autoTalkCount += 1;
+  }, 3000);
+}
+
+  function stopAutoTalk() {
   autoTalkRunning = false;
   clearTimeout(autoTalkTimer);
   autoTalkTimer = null;
@@ -468,19 +502,25 @@ autoTalkButton.addEventListener('click', () => {
     return;
   }
   if (testToken === null || busy) return;
- if (!premiumAutoVoice.checked) {
-  alert('先に専用ボイスの自動読み上げをONにしてね！');
+ 
+if (!premiumAutoVoice.checked && !autoVoiceCheckbox.checked) {
+  alert('先に無料音声か専用ボイスの自動読み上げをONにしてね！');
   return;
 }
+
   autoTalkRunning = true;
   autoTalkCount = 0;
   
+
+const autoTalkMinutes = autoVoiceCheckbox.checked && !premiumAutoVoice.checked ? 30 : 5;
+
 autoTalkLimitTimer = setTimeout(() => {
   if (autoTalkRunning) {
     stopAutoTalk();
-    modeText.textContent = '⏱️ 5分経過したため自動トークを終了したよ！';
+    modeText.textContent = '⏱️ ' + autoTalkMinutes + '分経過したため自動トークを終了したよ！';
   }
-}, 5 * 60 * 1000);
+}, autoTalkMinutes * 60 * 1000);
+
   
   autoTalkButton.textContent = '⏹ 自動トーク停止';
 autoTalkTimer = setTimeout(() => {
