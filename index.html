@@ -357,6 +357,8 @@ connectButton.addEventListener('click', () => {
   modeButton.textContent = '🔒 AIテストを終了';
   modeText.textContent = 'AIテストモード中。送信するとAPI料金が発生する場合があります。';
   addMessage('AIテストモードだよ💜 お話ししてみてね！', 'shizuku');
+autoTalkButton.disabled = false;
+autoTalkButton.textContent = '🌸 自動トーク開始';
 });
 cancelButton.addEventListener('click', () => {
   tokenInput.value = '';
@@ -428,9 +430,29 @@ function stopAutoTalk() {
   autoTalkRunning = false;
   clearTimeout(autoTalkTimer);
   autoTalkTimer = null;
-  autoTalkButton.textContent = '🌸 自動トーク準備中';
-  autoTalkButton.disabled = true;
+  autoTalkButton.textContent = testToken === null ? '🌸 自動トーク準備中' : '🌸 自動トーク開始';
+autoTalkButton.disabled = testToken === null;
 }
+autoTalkButton.addEventListener('click', () => {
+  if (autoTalkRunning) {
+    stopAutoTalk();
+    return;
+  }
+  if (testToken === null || busy) return;
+  autoTalkRunning = true;
+  autoTalkCount = 0;
+  autoTalkButton.textContent = '⏹ 自動トーク停止';
+autoTalkTimer = setTimeout(() => {
+  if (!autoTalkRunning || testToken === null || busy) {
+    stopAutoTalk();
+    return;
+  }
+  input.value = 'しずく、自動トークのテストだよ。みんなに向けて自然な雑談を始めてね。';
+  form.requestSubmit();
+  autoTalkCount += 1;
+  stopAutoTalk();
+}, 1500);
+});
 loadMemory();
 if (conversation.length > 0) {
   addMessage('おかえり！前の会話を読み込んだよ💜 AIテストを開始すると続きから話せるよ。', 'shizuku');
