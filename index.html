@@ -75,6 +75,7 @@ const input = document.getElementById('message');
 const form = document.getElementById('chatForm');
 const sendButton = document.getElementById('sendButton');
 const modeButton = document.getElementById('modeButton');
+const autoTalkButton = document.getElementById('autoTalkButton');
 const modeText = document.getElementById('modeText');
 const tokenPanel = document.getElementById('tokenPanel');
 const tokenInput = document.getElementById('tokenInput');
@@ -419,6 +420,17 @@ form.addEventListener('submit', async event => {
     input.focus();
   }
 });
+let autoTalkRunning = false;
+let autoTalkTimer = null;
+let autoTalkCount = 0;
+const AUTO_TALK_MAX_TURNS = 3;
+function stopAutoTalk() {
+  autoTalkRunning = false;
+  clearTimeout(autoTalkTimer);
+  autoTalkTimer = null;
+  autoTalkButton.textContent = '🌸 自動トーク準備中';
+  autoTalkButton.disabled = true;
+}
 loadMemory();
 if (conversation.length > 0) {
   addMessage('おかえり！前の会話を読み込んだよ💜 AIテストを開始すると続きから話せるよ。', 'shizuku');
