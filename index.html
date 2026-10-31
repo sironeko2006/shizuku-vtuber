@@ -474,9 +474,14 @@ autoTalkButton.addEventListener('click', () => {
 }
   autoTalkRunning = true;
   autoTalkCount = 0;
-  autoTalkLimitTimer = setTimeout(() => {
-  if (autoTalkRunning) stopAutoTalk();
+  
+autoTalkLimitTimer = setTimeout(() => {
+  if (autoTalkRunning) {
+    stopAutoTalk();
+    modeText.textContent = '⏱️ 5分経過したため自動トークを終了したよ！';
+  }
 }, 5 * 60 * 1000);
+  
   autoTalkButton.textContent = '⏹ 自動トーク停止';
 autoTalkTimer = setTimeout(() => {
   if (!autoTalkRunning || testToken === null || busy) {
