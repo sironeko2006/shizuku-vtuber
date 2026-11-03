@@ -123,6 +123,19 @@ object-fit: contain;
 </main>
 <script>
 'use strict';
+
+/* しずくの口パク画像切り替えテスト */
+const shizukuCharacter = document.getElementById('shizukuCharacter');
+let shizukuMouthClosed = false;
+
+document.querySelector('.shizuku-stage').addEventListener('click', () => {
+  shizukuMouthClosed = !shizukuMouthClosed;
+
+  shizukuCharacter.src = shizukuMouthClosed
+    ? 'shizuku-mouth-closed-final.png'
+    : 'shizuku-cutout.png';
+});
+
 const chat = document.getElementById('chat');
 const input = document.getElementById('message');
 const form = document.getElementById('chatForm');
