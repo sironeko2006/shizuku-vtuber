@@ -15,6 +15,28 @@
 .premium-voice .voice-actions button:disabled{background:#bfb3c9}
 .premium-voice audio{display:block;width:100%;margin-top:10px;height:44px}
 .premium-voice .small{font-size:12px;color:#6e577b;line-height:1.5;margin:7px 0}
+
+/* しずくの待機アニメーション */
+main > img {
+  transform-origin: center 85%;
+  animation: shizukuIdle 4s ease-in-out infinite;
+}
+
+@keyframes shizukuIdle {
+  0%, 100% {
+    transform: translateY(0) rotate(-0.3deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0.4deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main > img {
+    animation: none;
+  }
+}
+
 </style>
 </head>
 <body>
