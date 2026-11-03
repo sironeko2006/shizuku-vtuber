@@ -28,6 +28,7 @@
 
 .shizuku-stage .shizuku-bg {
   display: block;
+  visibility: hidden;
   width: 100%;
   height: auto;
 }
@@ -43,7 +44,7 @@ object-fit: contain;
 
   pointer-events: none;
   transform-origin: center 85%;
-  animation: shizukuIdle 4s ease-in-out infinite;
+  animation: none;
 }
 
 /* しずくだけがふわふわ動く */
@@ -71,7 +72,7 @@ object-fit: contain;
 <div class="shizuku-stage">
   <img src="shizuku-bg.png" alt="" class="shizuku-bg">
   
-<img src="shizuku-cutout.png" alt="紫乃しずく" class="shizuku-character" id="shizukuCharacter">
+<img src="file_00000000014c8206bd6b176adcd54a77.png" alt="紫乃しずく" class="shizuku-character" id="shizukuCharacter">
 
 </div>
 <p class="hint">恥ずかしがり屋だけど、おしゃべりは大好き…！</p>
@@ -131,9 +132,10 @@ let shizukuMouthClosed = false;
 document.querySelector('.shizuku-stage').addEventListener('click', () => {
   shizukuMouthClosed = !shizukuMouthClosed;
 
-  shizukuCharacter.src = shizukuMouthClosed
-    ? 'shizuku-mouth-closed-final.png'
-    : 'shizuku-cutout.png';
+  
+    shizukuCharacter.src = shizukuMouthClosed
+  ? 'file_00000000014c8206bd6b176adcd54a77.png'
+  : 'file_000000005b08820687fda38b8b031a84.png';
 });
 
 const chat = document.getElementById('chat');
