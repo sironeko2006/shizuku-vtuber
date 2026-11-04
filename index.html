@@ -138,7 +138,27 @@ document.querySelector('.shizuku-stage').addEventListener('click', () => {
   ? 'shizuku-closed.png'
   : 'shizuku-open.png'; 
 });
+// 音声再生中の自動口パク
+let mouthTimer = null;
 
+function startMouthMotion() {
+  stopMouthMotion();
+  mouthTimer = setInterval(() => {
+    shizukuMouthClosed = !shizukuMouthClosed;
+    shizukuCharacter.src = shizukuMouthClosed
+      ? 'shizuku-closed.png'
+      : 'shizuku-open.png';
+  }, 190);
+}
+
+function stopMouthMotion() {
+  if (mouthTimer !== null) {
+    clearInterval(mouthTimer);
+    mouthTimer = null;
+  }
+  shizukuMouthClosed = true;
+  shizukuCharacter.src = 'shizuku-closed.png';
+}
 const chat = document.getElementById('chat');
 const input = document.getElementById('message');
 const form = document.getElementById('chatForm');
@@ -187,6 +207,9 @@ utterance.onend = () => {
       if (event.error !== 'canceled' && event.error !== 'interrupted') voiceStatus.textContent = '音声を再生できなかったよ。Chrome・端末の読み上げ設定を確認してね。';
     };
     voiceStatus.textContent = '音声を準備中…（音量を確認してね）';
+    utterance.addEventListener('start', startMouthMotion);
+utterance.addEventListener('end', stopMouthMotion);
+utterance.addEventListener('error', stopMouthMotion);
     window.speechSynthesis.speak(utterance);
   } catch (error) {
     voiceStatus.textContent = '音声を利用できなかったよ。Chromeで開いてみてね。';
