@@ -73,7 +73,7 @@ mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 <div class="shizuku-stage">
   <img src="shizuku-bg-new.png" alt="" class="shizuku-bg">
   
-<img src="shizuku-closed.png" alt="紫乃しずく" class="shizuku-character" id="shizukuCharacter">
+<img src="shizuku-closed-v2.png" alt="紫乃しずく" class="shizuku-character" id="shizukuCharacter">
 
 </div>
 <p class="hint">恥ずかしがり屋だけど、おしゃべりは大好き…！</p>
@@ -135,8 +135,8 @@ document.querySelector('.shizuku-stage').addEventListener('click', () => {
 
   
    shizukuCharacter.src = shizukuMouthClosed
-  ? 'shizuku-closed.png'
-  : 'shizuku-open.png'; 
+  ? 'shizuku-closed-v2.png'
+: 'shizuku-open-v2.png'; 
 });
 // 音声再生中の自動口パク
 let mouthTimer = null;
@@ -146,8 +146,9 @@ function startMouthMotion() {
   mouthTimer = setInterval(() => {
     shizukuMouthClosed = Math.random() < 0.45;
     shizukuCharacter.src = shizukuMouthClosed
-      ? 'shizuku-closed.png'
-      : 'shizuku-open.png';
+      ? 'shizuku-closed-v2.png'
+: 'shizuku-open-v2.png';
+  
   }, 190);
 }
 
@@ -157,7 +158,7 @@ function stopMouthMotion() {
     mouthTimer = null;
   }
   shizukuMouthClosed = true;
-  shizukuCharacter.src = 'shizuku-closed.png';
+  shizukuCharacter.src = 'shizuku-closed-v2.png';
 }
 const chat = document.getElementById('chat');
 const input = document.getElementById('message');
