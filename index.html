@@ -144,7 +144,7 @@ let mouthTimer = null;
 function startMouthMotion() {
   stopMouthMotion();
   mouthTimer = setInterval(() => {
-    shizukuMouthClosed = !shizukuMouthClosed;
+    shizukuMouthClosed = Math.random() < 0.45;
     shizukuCharacter.src = shizukuMouthClosed
       ? 'shizuku-closed.png'
       : 'shizuku-open.png';
