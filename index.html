@@ -143,18 +143,26 @@ let mouthTimer = null;
 
 function startMouthMotion() {
   stopMouthMotion();
-  mouthTimer = setInterval(() => {
-    shizukuMouthClosed = Math.random() < 0.45;
+
+  function moveMouth() {
+    shizukuMouthClosed = !shizukuMouthClosed;
+
     shizukuCharacter.src = shizukuMouthClosed
       ? 'shizuku-closed-v2.png'
-: 'shizuku-open-v2.png';
-  
-  }, 190);
+      : 'shizuku-open-v2.png';
+
+    mouthTimer = setTimeout(
+      moveMouth,
+      150 + Math.random() * 100
+    );
+  }
+
+  moveMouth();
 }
 
 function stopMouthMotion() {
   if (mouthTimer !== null) {
-    clearInterval(mouthTimer);
+    clearTimeout(mouthTimer);
     mouthTimer = null;
   }
   shizukuMouthClosed = true;
