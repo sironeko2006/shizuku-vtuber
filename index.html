@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>紫乃しずく | おしゃべりルーム</title>
+<title>紫野りせ | おしゃべりルーム</title>
 <style>
 *{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(160deg,#f8eaff,#e9e0fa);font-family:system-ui,sans-serif;color:#503c65;display:flex;justify-content:center}main{width:min(100%,480px);padding:20px 16px 32px;text-align:center}h1{font-size:24px;margin:12px 0}img{display:block;width:75%;max-width:280px;max-height:310px;object-fit:cover;object-position:top;border-radius:22px;margin:0 auto 16px;box-shadow:0 8px 24px #79608d33}.hint{font-size:13px;color:#756583;margin:0 0 14px}.chat{height:280px;overflow-y:auto;text-align:left;background:#ffffffbb;border:1px solid #e6d6ef;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}.bubble{padding:10px 13px;border-radius:16px;max-width:88%;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.shizuku{align-self:flex-start;background:#f1e4fa}.you{align-self:flex-end;background:#d9c0ef}.input-row{display:flex;gap:8px;margin-top:12px}input{min-width:0;flex:1;border:1px solid #d4bce5;border-radius:22px;padding:13px;font-size:16px}button{border:0;border-radius:22px;padding:12px 19px;background:#a36ad6;color:white;font-size:16px;font-weight:600}button:active{opacity:.8}button:disabled{opacity:.55}.note{font-size:12px;color:#7b6a89;margin-top:12px}.mode-row{display:flex;justify-content:center;margin-top:12px}.mode-button{font-size:13px;padding:10px 16px;background:#8054a6}#modeText{margin:9px 0 0;font-size:12px;color:#68567a}[hidden]{display:none!important}.token-panel{margin:12px 0 0;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#fff9}.token-panel label{display:block;font-size:13px;margin-bottom:8px}.token-row{display:flex;gap:8px}.token-row button{font-size:13px}.cancel-token{margin-top:8px;background:#b3a2c2;font-size:13px;padding:8px 12px}.memory-panel{margin-top:16px;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#ffffff99;text-align:left}.memory-label{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;cursor:pointer}.memory-label input{flex:0 0 auto;min-width:auto;width:20px;height:20px;accent-color:#8054a6}.memory-help{font-size:12px;line-height:1.5;color:#68567a;margin:8px 0}.memory-clear{font-size:12px;background:#b3a2c2;padding:8px 12px}.memory-status{font-size:12px;margin:8px 0 0;color:#68567a}.voice-panel{margin-top:14px;padding:12px;border:1px solid #d4bce5;border-radius:16px;background:#fff9;text-align:left}.voice-title{font-size:15px;font-weight:700;margin:0 0 10px}.voice-actions{display:flex;gap:8px;flex-wrap:wrap}.voice-actions button{padding:9px 12px;font-size:13px}.voice-replay{background:#9066b5}.voice-stop{background:#b3a2c2}.voice-toggle{display:flex;align-items:center;gap:10px;font-size:13px;margin-top:12px;cursor:pointer}.voice-toggle input{width:20px;height:20px;flex:0 0 auto;min-width:20px;accent-color:#8054a6}.voice-status{font-size:12px;color:#68567a;line-height:1.5;margin:9px 0 0}
 
@@ -69,17 +69,17 @@ mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 </head>
 <body>
 <main>
-<h1>💜 紫乃しずく 💜</h1>
+<h1>💜 紫野りせ 💜</h1>
 <div class="shizuku-stage">
   <img src="shizuku-bg-new.png" alt="" class="shizuku-bg">
   
-<img src="shizuku-closed-v2.png" alt="紫乃しずく" class="shizuku-character" id="shizukuCharacter">
+<img src="shizuku-closed-v2.png" alt="紫野りせ" class="shizuku-character" id="shizukuCharacter">
 
 </div>
 <p class="hint">恥ずかしがり屋だけど、おしゃべりは大好き…！</p>
 <div class="chat" id="chat" role="log" aria-live="polite" aria-label="しずくとの会話"></div>
 <form id="chatForm" class="input-row">
-<input id="message" placeholder="しずくに話しかけてね" maxlength="200" autocomplete="off" aria-label="メッセージ">
+<input id="message" placeholder="りせに話しかけてね" maxlength="200" autocomplete="off" aria-label="メッセージ">
 <button id="sendButton" type="submit">送信 💜</button>
 </form>
 <div class="mode-row"><button id="modeButton" type="button" class="mode-button">🔐 AIテストを開始</button></div>
@@ -89,8 +89,8 @@ mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 <div class="token-row"><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" aria-label="テスト用合言葉"><button id="connectButton" type="button">接続</button></div>
 <button id="cancelButton" class="cancel-token" type="button">キャンセル</button>
 </div>
-<section class="voice-panel" aria-label="しずくの音声設定">
-<p class="voice-title">🎤 しずくの声（無料テスト）</p>
+<section class="voice-panel" aria-label="りせの音声設定">
+<p class="voice-title">🎤 りせの声（無料テスト）</p>
 <div class="voice-actions">
 <button id="voiceTestButton" type="button">🔊 声を試す</button>
 <button id="voiceReplayButton" type="button" class="voice-replay" disabled>🔊 最後の返事</button>
@@ -103,7 +103,7 @@ mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 
 <section class="premium-voice" aria-label="ElevenLabs専用ボイスの設定">
   <h2>💜 しずく専用ボイス（ElevenLabs）</h2>
-  <p class="small">自分で作った「紫乃しずく」の声を使用します。音声を生成するとElevenLabsのクレジットを消費します。</p>
+  <p class="small">自分で作った「紫野りせ」の声を使用します。音声を生成するとElevenLabsのクレジットを消費します。</p>
   <div class="voice-actions">
     <button id="premiumVoiceTest" type="button">🎤 専用の声を試す</button>
     <button id="premiumVoiceReplay" type="button" disabled>🔊 最後の返事を再生</button>
@@ -627,7 +627,7 @@ if (autoTalkCount >= 240) {
     }
 
     
-input.value = 'しずく、紫乃しずくらしく、直前の会話から自然に雑談を続けてね。元気70％、恥ずかしがり屋30％の明るく親しみやすい話し方にしてね。毎回質問で終わらず、質問は4回に1回程度にして、直前が質問なら今回は質問しないでね。自分の感想、ちょっとした独り言、可愛い冗談、身近な話題を自然に混ぜてね。同じ話題や口癖を繰り返さず、ときどき別の話題にも移ってね。視聴者からコメントがなくても自分から楽しくおしゃべりしてね。存在しないコメントや実体験を作らず、2〜4文程度の読み上げやすい自然なセリフだけを話してね。';
+input.value = 'りせ、紫野りせらしく、直前の会話から自然に雑談を続けてね。元気70％、恥ずかしがり屋30％の明るく親しみやすい話し方にしてね。毎回質問で終わらず、質問は4回に1回程度にして、直前が質問なら今回は質問しないでね。自分の感想、ちょっとした独り言、可愛い冗談、身近な話題を自然に混ぜてね。同じ話題や口癖を繰り返さず、ときどき別の話題にも移ってね。視聴者からコメントがなくても自分から楽しくおしゃべりしてね。存在しないコメントや実体験を作らず、2〜4文程度の読み上げやすい自然なセリフだけを話してね。';
 
     form.requestSubmit();
     autoTalkCount += 1;
