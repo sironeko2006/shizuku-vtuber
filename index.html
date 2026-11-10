@@ -65,6 +65,39 @@ mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 }
 
 
+
+/* 配信用表示：通常の会話・音声の処理はそのまま動かし、見た目だけ切り替える */
+.stream-view-button{background:#6c42a5;font-size:14px}
+body.rise-live-view{
+  width:100%;height:100svh;min-height:100svh;overflow:hidden;
+  background:radial-gradient(ellipse at 45% 32%,#d4b5fa 0%,#8662b4 60%,#382448 100%);
+}
+body.rise-live-view::before{
+  content:"";position:fixed;inset:-20px;pointer-events:none;
+  background:url('shizuku-bg-new.png') center/cover no-repeat;
+  opacity:.28;filter:blur(17px);z-index:0;
+}
+body.rise-live-view main{
+  position:relative;z-index:1;width:100%;max-width:none;
+  height:100svh;min-height:100svh;margin:0;padding:0;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+body.rise-live-view main > :not(.shizuku-stage){display:none!important}
+body.rise-live-view .shizuku-stage{
+  width:min(100vw,520px);max-width:none;margin:0 auto;
+  border-radius:0;overflow:hidden;flex-shrink:0;
+  touch-action:manipulation;-webkit-user-select:none;user-select:none;
+  -webkit-touch-callout:none;
+}
+body.rise-live-view .shizuku-stage .shizuku-bg{
+  width:100%;height:auto;max-width:none;max-height:none;
+  margin:0;border-radius:0;box-shadow:none;object-fit:contain;
+}
+body.rise-live-view .shizuku-stage .shizuku-character{
+  width:100%;height:100%;max-width:none;max-height:none;
+  margin:0;border-radius:0;box-shadow:none;object-fit:contain;
+}
+
 </style>
 </head>
 <body>
@@ -84,6 +117,8 @@ mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 </form>
 <div class="mode-row"><button id="modeButton" type="button" class="mode-button">🔐 AIテストを開始</button></div>
 <div class="mode-row"><button id="autoTalkButton" type="button" class="mode-button" disabled>🌸 自動トーク準備中</button></div>
+<div class="mode-row"><button id="streamModeButton" type="button" class="mode-button stream-view-button" aria-pressed="false">📺 配信専用画面に切り替え</button></div>
+<p class="hint">配信画面ではりせだけ表示します。戻るにはキャラクターを3回連続タップしてね。</p>
 <div id="tokenPanel" class="token-panel" hidden>
 <label for="tokenInput">テスト用の合言葉を入力（他の人には教えないでね）</label>
 <div class="token-row"><input id="tokenInput" type="password" autocomplete="off" spellcheck="false" aria-label="テスト用合言葉"><button id="connectButton" type="button">接続</button></div>
@@ -183,6 +218,47 @@ function stopMouthMotion() {
   shizukuMouthClosed = true;
   updateShizukuImage();
 }
+
+// 同じページのまま配信表示へ切り替える。ページ再読み込みはしないので合言葉・自動会話を維持する。
+const streamModeButton = document.getElementById('streamModeButton');
+let riseLiveView = false;
+let riseTapTimes = [];
+function setRiseLiveView(enabled) {
+  riseLiveView = Boolean(enabled);
+  document.body.classList.toggle('rise-live-view', riseLiveView);
+  streamModeButton.setAttribute('aria-pressed', String(riseLiveView));
+  streamModeButton.textContent = riseLiveView ? '📺 配信表示中' : '📺 配信専用画面に切り替え';
+  riseTapTimes = [];
+  if (!riseLiveView && document.fullscreenElement && document.exitFullscreen) {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+streamModeButton.addEventListener('click', () => {
+  setRiseLiveView(true);
+  // 対応するChromeではブラウザ操作バーを隠す。未対応でも配信表示は使える。
+  if (document.documentElement.requestFullscreen) {
+    try {
+      const request = document.documentElement.requestFullscreen();
+      if (request && typeof request.catch === 'function') request.catch(() => {});
+    } catch (_) {}
+  }
+});
+// 配信中に設定を見せないため、戻り操作はキャラクターの3連続タップにする。
+document.querySelector('.shizuku-stage').addEventListener('click', () => {
+  if (!riseLiveView) return;
+  const now = Date.now();
+  riseTapTimes = riseTapTimes.filter(time => now - time < 1200);
+  riseTapTimes.push(now);
+  if (riseTapTimes.length >= 3) {
+    setRiseLiveView(false);
+    shizukuMouthClosed = true;
+    updateShizukuImage();
+  }
+});
+document.querySelector('.shizuku-stage').addEventListener('contextmenu', event => {
+  if (riseLiveView) event.preventDefault();
+});
+
 // しずくの自動まばたき
 function startBlinkMotion() {
   function blink() {
