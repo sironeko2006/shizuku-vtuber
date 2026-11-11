@@ -318,7 +318,7 @@ function speakAsShizuku(text) {
     utterance.pitch = 1.40;
     utterance.volume = 1;
     const japaneseVoices = window.speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('ja'));
-    if (japaneseVoices.length) utterance.voice = japaneseVoices[0];
+    if (japaneseVoices.length) utterance.voice = japaneseVoices.find(v => /female|woman|nanami|haruka|sayaka|kyoko/i.test(v.name)) || japaneseVoices[0];
     utterance.onstart = () => { voiceStatus.textContent = 'しずくが話しているよ…💜'; };
     
 utterance.onend = () => {
