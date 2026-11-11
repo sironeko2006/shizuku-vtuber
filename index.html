@@ -236,12 +236,12 @@ function setRiseLiveView(enabled) {
 streamModeButton.addEventListener('click', () => {
   setRiseLiveView(true);
   // 対応するChromeではブラウザ操作バーを隠す。未対応でも配信表示は使える。
-  if (document.documentElement.requestFullscreen) {
+  /*if (document.documentElement.requestFullscreen) {
     try {
       const request = document.documentElement.requestFullscreen();
       if (request && typeof request.catch === 'function') request.catch(() => {});
     } catch (_) {}
-  }
+  }*/
 });
 // 配信中に設定を見せないため、戻り操作はキャラクターの3連続タップにする。
 document.querySelector('.shizuku-stage').addEventListener('click', () => {
