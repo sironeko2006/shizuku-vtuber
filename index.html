@@ -315,7 +315,7 @@ function speakAsShizuku(text) {
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ja-JP';
     utterance.rate = 1.05;
-    utterance.pitch = 10.70;
+    utterance.pitch = 1.55;
     utterance.volume = 1;
     const japaneseVoices = window.speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('ja'));
     if (japaneseVoices.length) utterance.voice = japaneseVoices.find(v => /female|woman|nanami|haruka|sayaka|kyoko/i.test(v.name)) || japaneseVoices[0];
